@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-2-3 Word Game</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Splash Screen -->
+        <div id="splash-screen" class="screen active">
+            <h1>1-2-3 Word Game</h1>
+            <div class="button-container">
+                <button id="casual-btn" class="btn primary-btn">Casual Mode</button>
+                <button id="ranked-btn" class="btn secondary-btn" disabled>Ranked Mode (Coming Soon!)</button>
+            </div>
+        </div>
+
+        <!-- Username Screen -->
+        <div id="username-screen" class="screen">
+            <h2>Choose a Username</h2>
+            <input type="text" id="username-input" placeholder="Your username" maxlength="15">
+            <button id="username-submit" class="btn primary-btn">Continue</button>
+            <button class="btn back-btn">Back</button>
+        </div>
+
+        <!-- Lobby Screen -->
+        <div id="lobby-screen" class="screen">
+            <h2>Game Lobby</h2>
+            <div id="player-info">
+                <p>Your username: <span id="display-username"></span></p>
+                <p>Game ID: <span id="game-id"></span></p>
+            </div>
+            
+            <div class="lobby-options">
+                <div class="option-card">
+                    <h3>Create New Game</h3>
+                    <button id="create-game" class="btn primary-btn">Create Game</button>
+                </div>
+                
+                <div class="option-card">
+                    <h3>Join Existing Game</h3>
+                    <input type="text" id="join-code" placeholder="Enter game ID">
+                    <button id="join-game" class="btn primary-btn">Join Game</button>
+                </div>
+            </div>
+            
+            <div id="waiting-area" class="hidden">
+                <h3>Waiting for player to join...</h3>
+                <p>Share this game ID with a friend: <span id="share-game-id"></span></p>
+                <button id="cancel-game" class="btn secondary-btn">Cancel</button>
+            </div>
+            
+            <button class="btn back-btn">Back</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="player-info">
+                    <span id="player1-name">Player 1</span>
+                    <span id="player1-score">0</span>
+                </div>
+                <div class="round-info">
+                    <span id="round-number">Round 1</span>
+                </div>
+                <div class="player-info">
+                    <span id="player2-name">Player 2</span>
+                    <span id="player2-score">0</span>
+                </div>
+            </div>
+            
+            <div class="game-area">
+                <div id="countdown-container" class="countdown-container">
+                    <div id="countdown" class="countdown">Ready?</div>
+                </div>
+                
+                <div id="input-container" class="input-container hidden">
+                    <input type="text" id="word-input" placeholder="Type your word!" maxlength="20">
+                    <div id="timer">5</div>
+                </div>
+                
+                <div id="results-container" class="results-container hidden">
+                    <div class="word-display">
+                        <div class="word-card" id="player1-word">Ocean</div>
+                        <div class="word-card" id="player2-word">Blue</div>
+                    </div>
+                    <div id="match-result" class="match-result"></div>
+                </div>
+            </div>
+            
+            <button id="leave-game" class="btn secondary-btn">Leave Game</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/game.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
