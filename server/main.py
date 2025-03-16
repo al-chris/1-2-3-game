@@ -5,6 +5,7 @@ from typing import Dict, Optional, List
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 import json
 import asyncio
 from pathlib import Path
@@ -12,6 +13,20 @@ from game import GameManager
 
 # Initialize FastAPI and GameManager
 app = FastAPI()
+
+# Configure CORS
+origins = [
+    "http://al-chris.me",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 game_manager = GameManager()
 
 # Define the path to the client directory
