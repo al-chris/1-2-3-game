@@ -348,6 +348,40 @@ input[type="text"]:focus {
     color: #7f8c8d;
 }
 
+
+button {
+    min-height: 44px; /* Minimum recommended touch target size */
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* Remove tap highlight on iOS */
+    touch-action: manipulation; /* Disable double-tap to zoom */
+}
+
+/* Fix for some mobile browsers that don't handle :hover properly */
+button:hover, button:active, button:focus {
+    opacity: 0.9;
+}
+
+/* Make sure buttons have distinct active/pressed state */
+button:active {
+    transform: scale(0.97);
+}
+
+/* Ensure inputs are easily tappable */
+input[type="text"] {
+    min-height: 44px;
+    font-size: 16px; /* Prevent iOS zoom on input focus */
+}
+
+/* Fix for Opera Mobile specific issue */
+@supports (-o-appearance: none) or (-webkit-appearance: none) {
+    button, input[type="text"] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 5px;
+    }
+}
+
 /* Add this to your existing media queries section */
 @media (max-width: 767px) {
     .play-again-buttons {
@@ -358,5 +392,20 @@ input[type="text"]:focus {
     .play-again-buttons .btn {
         width: 100%;
         max-width: 200px;
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+    
+    /* Larger touch targets on small screens */
+    button {
+        margin-bottom: 10px;
+        padding: 12px;
+    }
+    
+    /* Make sure the play again buttons are large enough */
+    .play-again-buttons .btn {
+        min-height: 50px;
     }
 }

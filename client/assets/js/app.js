@@ -6,12 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const game = new Game(ui);
     
     // Splash Screen - Casual Mode Button
-    document.getElementById('casual-btn').addEventListener('click', () => {
+    document.getElementById('casual-btn').addEventListener('click', function(e) {
+        e.preventDefault();
         ui.showScreen('username');
     });
     
     // Username Screen - Submit Button
-    document.getElementById('username-submit').addEventListener('click', () => {
+    document.getElementById('username-submit').addEventListener('click', function(e) {
+        e.preventDefault();
         const username = ui.elements.usernameInput.value.trim();
         if (username) {
             game.setUsername(username);
@@ -22,12 +24,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Lobby Screen - Create Game Button
-    document.getElementById('create-game').addEventListener('click', () => {
+    document.getElementById('create-game').addEventListener('click', function(e) {
+        e.preventDefault();
         game.createGame();
     });
     
     // Lobby Screen - Join Game Button
-    document.getElementById('join-game').addEventListener('click', () => {
+    document.getElementById('join-game').addEventListener('click', function(e) {
+        e.preventDefault();
+        const gameId = ui.elements.joinCode.value.trim();
+        if (gameId) {
+            game.joinGame(gameId);
+        } else {
+            alert('Please enter a game ID');
+        }
+    });
+    
+    // Also add touchstart event for mobile browsers that might have issues with click
+    document.getElementById('join-game').addEventListener('touchstart', function(e) {
+        e.preventDefault();
         const gameId = ui.elements.joinCode.value.trim();
         if (gameId) {
             game.joinGame(gameId);
@@ -37,13 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Lobby Screen - Cancel Game Button
-    document.getElementById('cancel-game').addEventListener('click', () => {
+    document.getElementById('cancel-game').addEventListener('click', function(e) {
+        e.preventDefault();
         game.leaveGame();
         ui.hideWaitingArea();
     });
     
     // Game Screen - Leave Game Button
-    document.getElementById('leave-game').addEventListener('click', () => {
+    document.getElementById('leave-game').addEventListener('click', function(e) {
+        e.preventDefault();
         if (confirm('Are you sure you want to leave the game?')) {
             game.leaveGame();
             ui.showScreen('lobby');
@@ -70,15 +87,29 @@ document.addEventListener('DOMContentLoaded', () => {
 // Separate function to set up play again buttons
 // This helps with organization and potential reuse
 function setupPlayAgainButtons(ui, game) {
-    // Play Again - Yes Button
-    ui.elements.playAgainYesBtn.addEventListener('click', () => {
+    // Play Again - Yes Button with both click and touchstart
+    ui.elements.playAgainYesBtn.addEventListener('click', function(e) {
+        e.preventDefault();
         console.log("Yes button clicked");
         game.choosePlayAgain(true);
     });
     
-    // Play Again - No Button
-    ui.elements.playAgainNoBtn.addEventListener('click', () => {
+    ui.elements.playAgainYesBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        console.log("Yes button touched");
+        game.choosePlayAgain(true);
+    });
+    
+    // Play Again - No Button with both click and touchstart
+    ui.elements.playAgainNoBtn.addEventListener('click', function(e) {
+        e.preventDefault();
         console.log("No button clicked");
+        game.choosePlayAgain(false);
+    });
+    
+    ui.elements.playAgainNoBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        console.log("No button touched");
         game.choosePlayAgain(false);
     });
 }

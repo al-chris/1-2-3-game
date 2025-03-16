@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>1-2-3 Word Game</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -12,17 +15,17 @@
         <div id="splash-screen" class="screen active">
             <h1>1-2-3 Word Game</h1>
             <div class="button-container">
-                <button id="casual-btn" class="btn primary-btn">Casual Mode</button>
-                <button id="ranked-btn" class="btn secondary-btn" disabled>Ranked Mode (Coming Soon!)</button>
+                <button id="casual-btn" class="btn primary-btn" role="button" tabindex="0">Casual Mode</button>
+                <button id="ranked-btn" class="btn secondary-btn" disabled role="button" tabindex="-1">Ranked Mode (Coming Soon!)</button>
             </div>
         </div>
 
         <!-- Username Screen -->
         <div id="username-screen" class="screen">
             <h2>Choose a Username</h2>
-            <input type="text" id="username-input" placeholder="Your username" maxlength="15">
-            <button id="username-submit" class="btn primary-btn">Continue</button>
-            <button class="btn back-btn">Back</button>
+            <input type="text" id="username-input" placeholder="Your username" maxlength="15" autocomplete="off" autocapitalize="off">
+            <button id="username-submit" class="btn primary-btn" role="button" tabindex="0">Continue</button>
+            <button class="btn back-btn" role="button" tabindex="0">Back</button>
         </div>
 
         <!-- Lobby Screen -->
@@ -36,23 +39,23 @@
             <div class="lobby-options">
                 <div class="option-card">
                     <h3>Create New Game</h3>
-                    <button id="create-game" class="btn primary-btn">Create Game</button>
+                    <button id="create-game" class="btn primary-btn" role="button" tabindex="0">Create Game</button>
                 </div>
                 
                 <div class="option-card">
                     <h3>Join Existing Game</h3>
-                    <input type="text" id="join-code" placeholder="Enter game ID">
-                    <button id="join-game" class="btn primary-btn">Join Game</button>
+                    <input type="text" id="join-code" placeholder="Enter game ID" autocomplete="off" autocapitalize="off">
+                    <button id="join-game" class="btn primary-btn" role="button" tabindex="0">Join Game</button>
                 </div>
             </div>
             
             <div id="waiting-area" class="hidden">
                 <h3>Waiting for player to join...</h3>
                 <p>Share this game ID with a friend: <span id="share-game-id"></span></p>
-                <button id="cancel-game" class="btn secondary-btn">Cancel</button>
+                <button id="cancel-game" class="btn secondary-btn" role="button" tabindex="0">Cancel</button>
             </div>
             
-            <button class="btn back-btn">Back</button>
+            <button class="btn back-btn" role="button" tabindex="0">Back</button>
         </div>
 
         <!-- Game Screen -->
@@ -77,7 +80,7 @@
                 </div>
                 
                 <div id="input-container" class="input-container hidden">
-                    <input type="text" id="word-input" placeholder="Type your word!" maxlength="20">
+                    <input type="text" id="word-input" placeholder="Type your word!" maxlength="20" autocomplete="off" autocapitalize="off">
                     <div id="timer">5</div>
                 </div>
                 
@@ -89,19 +92,19 @@
                     <div id="match-result" class="match-result"></div>
                 </div>
                 
-                <!-- Play Again Dialog - NEW -->
+                <!-- Play Again Dialog -->
                 <div id="play-again-container" class="play-again-container hidden">
                     <h3>You found a match! 🎉</h3>
                     <p>Would you like to play again?</p>
                     <div class="play-again-buttons">
-                        <button id="play-again-yes" class="btn primary-btn">Yes, Play Again</button>
-                        <button id="play-again-no" class="btn secondary-btn">No, Quit Game</button>
+                        <button id="play-again-yes" class="btn primary-btn" role="button" tabindex="0">Yes, Play Again</button>
+                        <button id="play-again-no" class="btn secondary-btn" role="button" tabindex="0">No, Quit Game</button>
                     </div>
                     <p id="waiting-other-player" class="hidden">Waiting for other player's decision...</p>
                 </div>
             </div>
             
-            <button id="leave-game" class="btn secondary-btn">Leave Game</button>
+            <button id="leave-game" class="btn secondary-btn" role="button" tabindex="0">Leave Game</button>
         </div>
     </div>
 
