@@ -44,6 +44,10 @@ connected_clients: Dict[str, WebSocket] = {}
 async def read_index():
     return FileResponse(client_dir / "index.html")
 
+@app.get("/alive")
+async def alive():
+    return {"status": True}
+
 # WebSocket endpoint for game connections
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
