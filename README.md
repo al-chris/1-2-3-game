@@ -51,7 +51,7 @@ A multiplayer word game where two players try to find a common ground between th
 
 1. Clone the repository:
    ```
-   git clone <repository-url>
+   git clone https://github.com/al-chris/1-2-3-game.git
    cd 1-2-3-game
    ```
 
