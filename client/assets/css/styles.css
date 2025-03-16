@@ -315,3 +315,48 @@ input[type="text"]:focus {
         min-width: 100px;
     }
 }
+
+.play-again-container {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.play-again-container h3 {
+    margin-bottom: 10px;
+    color: #2ecc71;
+}
+
+.play-again-container p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.play-again-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+#waiting-other-player {
+    font-style: italic;
+    color: #7f8c8d;
+}
+
+/* Add this to your existing media queries section */
+@media (max-width: 767px) {
+    .play-again-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .play-again-buttons .btn {
+        width: 100%;
+        max-width: 200px;
+    }
+}

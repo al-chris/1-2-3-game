@@ -52,6 +52,8 @@ async def websocket_endpoint(websocket: WebSocket):
                 await handle_ready_for_round(client_id, payload)
             elif event == "submitWord":
                 await handle_submit_word(client_id, payload)
+            elif event == "playAgainChoice":
+                await handle_play_again_choice(client_id, payload)
             elif event == "leaveGame":
                 await handle_leave_game(client_id, payload)
     
@@ -157,6 +159,7 @@ async def handle_submit_word(client_id: str, payload: dict):
         if is_match:
             game.player1_score += 1
             game.player2_score += 1
+            game.match_found = True  # Mark that we found a match
         
         # Send results to both players
         await notify_game_room(game_id, "roundResults", {
@@ -166,6 +169,45 @@ async def handle_submit_word(client_id: str, payload: dict):
             "player1Score": game.player1_score,
             "player2Score": game.player2_score
         })
+
+
+async def handle_play_again_choice(client_id: str, payload: dict):
+    game_id = payload.get("gameId")
+    play_again = payload.get("playAgain", False)
+    
+    print(f"Player {client_id} chose {'to play again' if play_again else 'not to play again'} for game {game_id}")
+    
+    result = game_manager.player_play_again(game_id, client_id, play_again)
+    
+    if not result["success"]:
+        await send_to_client(client_id, "gameError", {"message": result.get("message", "Unknown error")})
+        return
+    
+    # If either player chooses not to play again, end the game
+    if "continue" in result and result["continue"] is False:
+        await notify_game_room(game_id, "gameEnded", {
+            "message": "Game ended - a player chose not to continue"
+        })
+        return
+    
+    # If both players want to continue, start a new game
+    if "continue" in result and result["continue"] is True:
+        game = game_manager.get_game(game_id)
+        await notify_game_room(game_id, "newGameStarting", {
+            "player1": game.player1_name,
+            "player2": game.player2_name,
+            "player1Score": game.player1_score,
+            "player2Score": game.player2_score,
+            "round": game.round
+        })
+        
+        # Give players a moment before starting the new game
+        await asyncio.sleep(2)
+        await start_countdown(game_id)
+    
+    # If we're still waiting for other player, notify this player
+    if "waiting" in result and result["waiting"] is True:
+        await send_to_client(client_id, "waitingForOtherPlayer", {})
 
 
 async def handle_leave_game(client_id: str, payload: dict):

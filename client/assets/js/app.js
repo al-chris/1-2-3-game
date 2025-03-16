@@ -60,6 +60,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
+    // Setup play again button listeners
+    setupPlayAgainButtons(ui, game);
+    
     // Show the splash screen initially
     ui.showScreen('splash');
 });
+
+// Separate function to set up play again buttons
+// This helps with organization and potential reuse
+function setupPlayAgainButtons(ui, game) {
+    // Play Again - Yes Button
+    ui.elements.playAgainYesBtn.addEventListener('click', () => {
+        console.log("Yes button clicked");
+        game.choosePlayAgain(true);
+    });
+    
+    // Play Again - No Button
+    ui.elements.playAgainNoBtn.addEventListener('click', () => {
+        console.log("No button clicked");
+        game.choosePlayAgain(false);
+    });
+}

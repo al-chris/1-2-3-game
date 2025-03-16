@@ -13,6 +13,7 @@ class Game {
             player2: 0
         };
         this.wordSubmitted = false;
+        this.playAgainSubmitted = false;
         
         this.connectWebSocket();
     }
@@ -111,11 +112,12 @@ class Game {
                 this.scores.player1 = player1Score;
                 this.scores.player2 = player2Score;
                 
-                // If there's a match, end the game
+                // If there's a match, show play again option
                 if (isMatch) {
                     setTimeout(() => {
-                        this.endGame();
-                    }, 5000);
+                        this.playAgainSubmitted = false; // Reset for new play again decision
+                        this.ui.showPlayAgainDialog();
+                    }, 3000);
                 } else {
                     // Otherwise, prepare for next round after a delay
                     setTimeout(() => {
@@ -124,6 +126,26 @@ class Game {
                         this.startRound();
                     }, 3000);
                 }
+                break;
+                
+            case 'waitingForOtherPlayer':
+                this.ui.showWaitingForOtherPlayer();
+                break;
+                
+            case 'newGameStarting':
+                // Reset for new game
+                this.currentRound = 1;
+                this.ui.updateRound(this.currentRound);
+                this.ui.updateScores(payload.player1Score, payload.player2Score);
+                this.ui.hidePlayAgainDialog();
+                this.playAgainSubmitted = false;
+                // The server will start the next countdown automatically
+                break;
+                
+            case 'gameEnded':
+                alert('Game ended: ' + payload.message);
+                this.resetGame();
+                this.ui.showScreen('lobby');
                 break;
                 
             case 'playerDisconnected':
@@ -186,6 +208,17 @@ class Game {
         }, 1000);
     }
     
+    // New method to handle play again choice
+    choosePlayAgain(playAgain) {
+        if (!this.playAgainSubmitted) {
+            this.playAgainSubmitted = true;
+            this.sendToServer('playAgainChoice', { 
+                gameId: this.gameId, 
+                playAgain: playAgain 
+            });
+        }
+    }
+    
     leaveGame() {
         this.sendToServer('leaveGame', { gameId: this.gameId });
         this.resetGame();
@@ -196,12 +229,6 @@ class Game {
         this.currentRound = 1;
         this.scores = { player1: 0, player2: 0 };
         this.wordSubmitted = false;
-    }
-    
-    endGame() {
-        const winner = this.isPlayer1 ? 'You both' : 'You both';
-        alert(`Game Over! ${winner} matched on a word. Returning to lobby.`);
-        this.leaveGame();
-        this.ui.showScreen('lobby');
+        this.playAgainSubmitted = false;
     }
 }

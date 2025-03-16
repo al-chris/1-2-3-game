@@ -29,7 +29,12 @@ class GameUI {
             player1Word: document.getElementById('player1-word'),
             player2Word: document.getElementById('player2-word'),
             matchResult: document.getElementById('match-result'),
-            roundNumber: document.getElementById('round-number')
+            roundNumber: document.getElementById('round-number'),
+            // New elements for play-again functionality
+            playAgainContainer: document.getElementById('play-again-container'),
+            waitingOtherPlayer: document.getElementById('waiting-other-player'),
+            playAgainYesBtn: document.getElementById('play-again-yes'),
+            playAgainNoBtn: document.getElementById('play-again-no')
         };
         
         this.bindBackButtons();
@@ -109,6 +114,7 @@ class GameUI {
         this.elements.countdownContainer.classList.remove('hidden');
         this.elements.inputContainer.classList.add('hidden');
         this.elements.resultsContainer.classList.add('hidden');
+        this.elements.playAgainContainer.classList.add('hidden');
     }
     
     // Update countdown text
@@ -121,6 +127,7 @@ class GameUI {
         this.elements.countdownContainer.classList.add('hidden');
         this.elements.inputContainer.classList.remove('hidden');
         this.elements.resultsContainer.classList.add('hidden');
+        this.elements.playAgainContainer.classList.add('hidden');
         
         // Focus on input field
         this.elements.wordInput.focus();
@@ -137,6 +144,7 @@ class GameUI {
         this.elements.countdownContainer.classList.add('hidden');
         this.elements.inputContainer.classList.add('hidden');
         this.elements.resultsContainer.classList.remove('hidden');
+        this.elements.playAgainContainer.classList.add('hidden');
         
         this.elements.player1Word.textContent = player1Word;
         this.elements.player2Word.textContent = player2Word;
@@ -150,5 +158,41 @@ class GameUI {
             this.elements.matchResult.classList.add('no-match');
             this.elements.matchResult.classList.remove('match');
         }
+    }
+    
+    // Show play again dialog
+    showPlayAgainDialog() {
+        this.elements.countdownContainer.classList.add('hidden');
+        this.elements.inputContainer.classList.add('hidden');
+        this.elements.resultsContainer.classList.add('hidden');
+        this.elements.playAgainContainer.classList.remove('hidden');
+        
+        // Reset waiting message state
+        this.elements.waitingOtherPlayer.classList.add('hidden');
+        
+        // Make sure buttons are enabled
+        this.enablePlayAgainButtons();
+    }
+    
+    // Enable play again buttons
+    enablePlayAgainButtons() {
+        this.elements.playAgainYesBtn.disabled = false;
+        this.elements.playAgainNoBtn.disabled = false;
+    }
+    
+    // Hide play again dialog
+    hidePlayAgainDialog() {
+        this.elements.playAgainContainer.classList.add('hidden');
+        // Important: Re-enable the buttons for next time
+        this.enablePlayAgainButtons();
+    }
+    
+    // Show waiting for other player message
+    showWaitingForOtherPlayer() {
+        this.elements.waitingOtherPlayer.classList.remove('hidden');
+        
+        // Disable the buttons while waiting
+        this.elements.playAgainYesBtn.disabled = true;
+        this.elements.playAgainNoBtn.disabled = true;
     }
 }
